@@ -15,7 +15,7 @@ orders = [
     1000,
     500,
 ]  # orders of the reduced realizations that are constructed
-flim = None  # window for frequency-limited realization. use list e.g. [100,1000]
+flim = None  # window for frequency-limited realization. use numpy array e.g. array([100,1000])
 plots = True
 IOs = (
     (6, 3),
