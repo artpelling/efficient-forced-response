@@ -27,4 +27,7 @@ A. J. R. Pelling, E. Sarradj, "Efficient Forced Response Computations of Acousti
 with a State-Space Approach"
 
 <a id = "2">[2]</a>
-E. Hadad, F. Heese, P. Vary and S. Gannot, "Multichannel audio database in various acoustic environments," 2014 14th International Workshop on Acoustic Signal Enhancement (IWAENC), 2014, pp. 313-317, doi: 10.1109/IWAENC.2014.6954309.
+E. Hadad, F. Heese, P. Vary and S. Gannot, "Multichannel audio database in various acoustic environments," 2014 14th International Workshop on Acoustic Signal Enhancement (IWAENC), 2014, pp. 313-317, doi: [10.1109/IWAENC.2014.6954309](https://doi.org/10.1109/IWAENC.2014.6954309).
+
+<a id = "3">[3]</a>
+N. Halko, P. G. Martinsson, and J. A. Tropp, "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions" SIAM Review 2011 53:2, 217-288, doi: [10.1137/090771806](https://doi.org/10.1137/090771806).
