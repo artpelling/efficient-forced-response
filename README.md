@@ -1,4 +1,6 @@
 # efficient-forced-response
+[![DOI](https://zenodo.org/badge/392388337.svg)](https://zenodo.org/badge/latestdoi/392388337)
+
 This repository contains the necessary code to reproduce the results and figures in [[1]](#1).
 
 The input data are taken from the Aachen Multi-Channel Impulse Response Database (MIRD)[[2]](#2) and can be downloaded [here](https://www.iks.rwth-aachen.de/fileadmin/user_upload/downloads/forschung/tools-downloads/Impulse_response_Acoustic_Lab_Bar-Ilan_University__Reverberation_0.160s__3-3-3-8-3-3-3.zip "MIRD Database").
