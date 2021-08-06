@@ -8,6 +8,10 @@ def dB(vals):
     return 20 * log10(abs(vals))
 
 
+def norm(x):
+    return sqrt(sum(abs(x)**2))
+
+
 def post_process(ir, fs, reduction=1, normalise=False, padding=False, crop=False):
     if crop:
         peak = max(abs(ir), axis=(0, 1))

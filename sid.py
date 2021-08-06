@@ -16,11 +16,12 @@ from numpy import (
     real,
     roll,
     squeeze,
+    sqrt,
     zeros,
 )
 from numpy.fft import fft, ifft
 from numpy.random import randn
-from numpy.linalg import cond
+from numpy.linalg import cond, multi_dot
 from scipy.linalg import qr, svd, eig, inv, cdf2rdf, logm
 from scipy.linalg.blas import cgbmv, dgbmv
 
@@ -56,16 +57,41 @@ class BandedMatrix(ndarray):
             return
 
     def __matmul__(self, x):
+        if x.ndim == 1:
+            x = x.reshape(-1, 1)
+
+        k = x.shape[1]
         if self.dtype == complex128:
-            return cgbmv(self.m, self.n, self.kl, self.ku, 1, self, x)
+            y = zeros([self.m, k], dtype="complex")
+            for i in range(k):
+                y[:, i] = cgbmv(self.m, self.n, self.kl, self.ku, 1, self, x[:, i])
         else:
-            return dgbmv(self.m, self.n, self.kl, self.ku, 1, self, x)
+            y = zeros([self.m, k], dtype="float")
+            for i in range(k):
+                y[:, i] = dgbmv(self.m, self.n, self.kl, self.ku, 1, self, x[:, i])
+
+        return squeeze(y)
 
     def __rmatmul__(self, x):
+        if x.ndim == 1:
+            x = x.reshape(1, -1)
+
+        x = x.T
+        k = x.shape[1]
         if self.dtype == complex128:
-            return cgbmv(self.m, self.n, self.kl, self.ku, 1, self, x.T, trans=1)
+            y = zeros([self.m, k], dtype="complex")
+            for i in range(k):
+                y[:, i] = cgbmv(
+                    self.m, self.n, self.kl, self.ku, 1, self, x[:, i], trans=1
+                )
         else:
-            return dgbmv(self.m, self.n, self.kl, self.ku, 1, self, x.T, trans=1)
+            y = zeros([self.m, k], dtype="float")
+            for i in range(k):
+                y[:, i] = dgbmv(
+                    self.m, self.n, self.kl, self.ku, 1, self, x[:, i], trans=1
+                )
+
+        return squeeze(y)
 
     @property
     def T(self):
@@ -123,7 +149,7 @@ class BlockHankelMatrix(ndarray):
                     )
                 )[: self.s]
 
-        return y
+        return squeeze(y)
 
     def __rmatmul__(self, x):
         if x.ndim == 1:
@@ -147,7 +173,7 @@ class BlockHankelMatrix(ndarray):
                     )
                 )[: self.s]
 
-        return y.T
+        return squeeze(y.T)
 
     @property
     def T(self):
@@ -251,14 +277,10 @@ def forced_response(A, B, C, u, x0=None, n=None):
     y = zeros((C.shape[0], n))
 
     if x0 is None:
-        x = zeros((A.shape[1],))
+        x = zeros(A.shape[1])
     else:
         x = x0
 
-    return _dlsim_full(y, A, B, C, u, x)
-
-
-def _dlsim_full(y, A, B, C, u, x):
     x = A @ x + B @ u[:, 0]
     for i in range(0, u.shape[-1] - 1):
         y[:, i] = real(C @ x)
@@ -272,16 +294,18 @@ def _dlsim_full(y, A, B, C, u, x):
 def impulse_response(A, B, C, n, m=None, p=None):
     if m is None:
         nm = B.shape[1]
-        m = arange(m)
+        m = arange(nm)
     else:
-        nm = 1
-        m = [m]
+        if isinstance(m, int):
+            m = [m]
+        nm = len(m)
     if p is None:
         np = C.shape[0]
-        p = arange(p)
+        p = arange(np)
     else:
-        np = 1
-        p = [p]
+        if isinstance(p, int):
+            p = [p]
+        np = len(p)
 
     if nm == 1 and np == 1:
         h = forced_response(A, B[:, m], C[p], 1, n=n)
@@ -289,7 +313,7 @@ def impulse_response(A, B, C, n, m=None, p=None):
         h = zeros([np, nm, n])
         An = eye(A.shape[0])
         for i in range(n):
-            h[..., i] = C[p] @ An @ B[:, m]
+            h[..., i] = multi_dot([C[p], An, B[:, m]])
             An = An @ A
 
     return squeeze(h)

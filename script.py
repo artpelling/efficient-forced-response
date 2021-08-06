@@ -1,7 +1,7 @@
-from sid import BlockHankelMatrix, canonical_diagonal, era, impulse_response, rsvd
-from utils import dB, load_MIRD_data, post_process
-from numpy import array, concatenate, set_printoptions, zeros
-from numpy.fft import rfft, rfftfreq
+from sid import BlockHankelMatrix, era, impulse_response, rsvd
+from utils import dB, load_MIRD_data, norm, post_process
+from numpy import array, concatenate, set_printoptions, sqrt, where, zeros
+from numpy.fft import fft, fftfreq, rfft, rfftfreq
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
@@ -38,8 +38,7 @@ if __name__ == "__main__":
     realizations = dict.fromkeys(orders)
     for order in orders:
         A, B, C = era(U, S, Vt, p, m, dt=1 / fs, r=order, flim=flim)
-        Ar, Br, Cr, _ = canonical_diagonal(A, B, C, real=True)
-        realizations[order] = (Ar, Br, Cr)
+        realizations[order] = (A, B, C)
 
     if plots:
         mpl.rcParams["lines.linewidth"] = 1.2
@@ -78,6 +77,19 @@ if __name__ == "__main__":
 
         text = [r"(\textbf{a})", r"(\textbf{b})", r"(\textbf{c})"]
 
+        imps = dict.fromkeys(orders)
+        for order in orders:
+            imps[order] = impulse_response(*realizations[order], n)
+            if flim is not None:
+                ff = fftfreq(n, 1 / fs)
+                idx = where((abs(ff) >= flim[0]) & (abs(ff) <= flim[1]))
+                err = norm(fft(h)[..., idx] - fft(imps[order])[..., idx]) / sqrt(
+                    len(idx[0])
+                )
+            else:
+                err = norm(h - imps[order])
+            print(f"h2err: {err}")
+
         for ax in axes:
             i, j = IOs[k]
             ax.semilogx(
@@ -89,10 +101,9 @@ if __name__ == "__main__":
             )
 
             for order in orders:
-                imp_red = impulse_response(*realizations[order], n, i, j)
                 ax.semilogx(
                     f,
-                    dB(rfft(imp_red)),
+                    dB(rfft(imps[order][j, i])),
                     linestyle="-",
                     color=c[order],
                     label=fr"$n={order}$",
