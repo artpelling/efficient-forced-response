@@ -24,8 +24,7 @@ $ python script.py
 
 ## References
 <a id = "1">[1]</a>
-A. J. R. Pelling and E. Sarradj, "Efficient Forced Response Computations of Acoustical Systems
-with a State-Space Approach", MPDI Acoustics, 2021.
+A. J. R. Pelling and E. Sarradj, "Efficient Forced Response Computations of Acoustical Systems with a State-Space Approach", Acoustics, 2021, 3, 581-594, doi: [10.3390/acoustics3030037](https://doi.org/10.3390/acoustics3030037).
 
 <a id = "2">[2]</a>
 E. Hadad, F. Heese, P. Vary and S. Gannot, "Multichannel audio database in various acoustic environments", 2014 14th International Workshop on Acoustic Signal Enhancement (IWAENC), 2014, pp. 313-317, doi: [10.1109/IWAENC.2014.6954309](https://doi.org/10.1109/IWAENC.2014.6954309).
