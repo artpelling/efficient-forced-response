@@ -1,49 +1,39 @@
 cff-version: 1.2.0
-title: efficient-forced-response
-message: 'If you use this software, please cite as below.'
+title: >-
+  Code for Numerical Experiments in "Efficient Forced Response Computations of Acoustical
+  Systems with a State-Space Approach"
+message: >-
+  "If you use this software, please cite it using the
+  metadata from this file."
 type: software
 authors:
-  - given-names: Art J. R. Pelling
-    family-names: Pelling
-    email: a.pelling@tu-berlin.de
-    affiliation: TU Berlin
-    orcid: 'https://orcid.org/0000-0003-3228-6069'
-  - given-names: Ennes
-    family-names: Sarradj
-    email: ennes.sarradj@tu-berlin.de
-    affiliation: TU Berlin
+  - given-names: "Art J. R."
+    family-names: "Pelling"
+    email: "a.pelling@tu-berlin.de"
+    orcid: "https://orcid.org/0000-0003-3228-6069"
+    affiliation: "Department of Engineering Acoustics, Technische Universität Berlin"
+repository-code: "https://github.com/artpelling/efficient-forced-response"
+license: "BSD-3-Clause"
 identifiers:
-  - type: doi
-    value: 10.5281/zenodo.5167288
-    description: Zenodo
-repository-code: 'https://github.com/artpelling/efficient-forced-response'
-abstract: >
-  State-space models have been successfully employed for
-  model order reduction and control purposes in acoustics in
-  the past. However, due to the cubic complexity of the
-  singular value decomposition, which makes up the core of
-  many subspace system identification (SSID) methods, the
-  construction of large scale state-space models from
-  high-dimensional measurement data has been problematic in
-  the past. Recent advances of numerical linear algebra have
-  brought forth computationally efficient randomized
-  rank-revealing matrix factorizations and it has been shown
-  that these factorizations can be used to enhance SSID
-  methods such as the Eigensystem Realization Algorithm
-  (ERA). In this paper, we demonstrate the applicability of
-  the so-called generalized ERA to acoustical systems and
-  high-dimensional input data by means of an example.
-  Furthermore, we introduce a new efficient method of forced
-  response computation that relies on a state-space model in
-  quasi-diagonal form. Numerical experiments reveal that our
-  proposed method is more efficient than previous
-  state-space methods and can even outperform frequency
-  domain convolutions in certain scenarios.
-keywords:
-  - eigensystem realization algorithm
-  - subspace system identification
-  - model order reduction
-  - state-space
-  - convolution
-  - randomized singular value decomposition
-license: BSD-3-Clause
+  - description: "latest version"
+    type: "doi"
+    value: "10.5281/zenodo.5159476"
+preferred-citation:
+  type: article
+  title: "Efficient Forced Response Computations of Acoustical Systems with a State-Space Approach"
+  doi: 10.3390/acoustics3030037
+  authors:
+    - given-names: "Art J. R."
+      family-names: "Pelling"
+      email: "a.pelling@tu-berlin.de"
+      orcid: "https://orcid.org/0000-0003-3228-6069"
+      affiliation: "Department of Engineering Acoustics, Technische Universität Berlin"
+    - given-names: "Ennes"
+      family-names: "Sarradj"
+      orcid: "https://orcid.org/0000-0002-0274-8456"
+      affiliation: "Department of Engineering Acoustics, Technische Universität Berlin"
+  year: "2021"
+  journal: "Acoustics"
+  volume: "3"
+  start: "581"
+  end: "593"
